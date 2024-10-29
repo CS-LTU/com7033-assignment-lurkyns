@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
     <title>Sing up</title>
 </head>
 <body>
@@ -10,14 +11,15 @@
         <h1> SIGN UP </h1>
     </header>
     
-    <dic class='navbar'>
-        <ul>
-            <li><a href='/'>Home</a></li>
-            <li><a href='/about'>About</a></li>
-            <li><a href='/signup'>Sign up</a></li>
-            <li><a href='/signin'>sign in</a></li>
-        </ul>
-    </dic>
+    <nav class="navbar"> 
+        <div class='nav-container'>
+            <ul>
+                <li><a href='/'>Home</a></li>
+                <li><a href='/about'>About</a></li>
+                <li><a href='/signup'>Sign up</a></li>
+                <li><a href='/signin'>sign in</a></li>
+            </ul>
+        </div>
     
 </body>
 </html>

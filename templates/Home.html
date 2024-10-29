@@ -4,20 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Page still need adding to </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
 </head>
 
 <body>
     <header>
-        <h1> HOME testing   </h1>
+        <h1> HOME </h1>
     </header>
-    
-    <dic class='navbar'>
+   <nav class="navbar"> 
+    <div class='nav-container'>
         <ul>
             <li><a href='/'>Home</a></li>
             <li><a href='/about'>About</a></li>
             <li><a href='/signup'>Sign up</a></li>
             <li><a href='/signin'>sign in</a></li>
         </ul>
-    </dic>
+    </div>
+</nav> 
 </body>
 </html>
