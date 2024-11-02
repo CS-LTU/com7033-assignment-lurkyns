@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, flash, session 
-import sqlite3
+from flask import Flask, render_template, request, redirect, flash, session
+from werkzeug.security import generate_password_hash, check_password_hash  # Import para manejo de contraseñas
+import sqlite3  # Import para conectarse a la base de datos SQLite
 
 app = Flask(__name__)
 app.secret_key = 'some_secret_key' 
@@ -18,22 +19,24 @@ def about():
 #SIGNUP page
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template('Signup.html')
     if request.method == 'POST':
-        # Get form data
+        # Obtener los datos del formulario
         username = request.form['username']
         password = request.form['password']
-        
-        # Connect to the database and insert the user
+
+        # Encriptar la contraseña
+        hashed_password = generate_password_hash(password, method='sha256')
+
+        # Conectar a la base de datos y registrar al usuario
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
 
         try:
-            cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
+            cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, hashed_password))
             conn.commit()
             return redirect('/signin')
         except sqlite3.IntegrityError:
-            flash('Username already exists. Please choose a different one.')  # NEW: Flash message for username conflict
+            flash('Username already exists. Please choose a different one.')
         finally:
             conn.close()
 
@@ -44,24 +47,23 @@ def signup():
 # SIGNIN page
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
-    return render_template('Signin.html')
     if request.method == 'POST':
-        # Get form data
+        # Obtener los datos del formulario
         username = request.form['username']
         password = request.form['password']
-        
-        # Connect to the database and verify the user
+
+        # Conectar a la base de datos y verificar al usuario
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
+        cursor.execute('SELECT password FROM users WHERE username = ?', (username,))
         user = cursor.fetchone()
         conn.close()
-        
-        if user:
-            session['username'] = username  # NEW: Store username in session
-            return redirect('/dashboard')  # Redirect to dashboard if successful
+
+        if user and check_password_hash(user[0], password):
+            session['username'] = username
+            return redirect('/dashboard')
         else:
-            flash('Invalid username or password. Please try again.')  # NEW: Flash message for failed login
+            flash('Invalid username or password. Please try again.')
 
     return render_template('Signin.html')
 
