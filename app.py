@@ -17,7 +17,8 @@ def about():
     return render_template('About.html')
 
 #SIGNUP page
-@app.route('/signup', methods=['GET', 'POST'])
+import re
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -27,6 +28,16 @@ def signup():
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
+
+        # Validación del correo electrónico
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            flash('Invalid email address. Please enter a valid email.')
+            return render_template('Signup.html')
+
+        # Validación de la contraseña
+        if len(password) < 8 or not re.search(r"[A-Z]", password) or not re.search(r"[a-z]", password) or not re.search(r"[0-9]", password):
+            flash('Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, and one number.')
+            return render_template('Signup.html')
 
         # Encriptar la contraseña
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
