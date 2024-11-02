@@ -28,14 +28,16 @@ def create_database():
     ''')
 
     # Crear la tabla de usuarios si no existe
-    cursor.execute('DROP TABLE IF EXISTS users') # Asegurarse de eliminar la tabla users antes de recrearla
+    cursor.execute('DROP TABLE IF EXISTS users')  # Asegurarse de eliminar la tabla users antes de recrearla
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
-            username TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            first_name TEXT,
+            last_name TEXT,
+            email TEXT,
+            username TEXT UNIQUE,
             password TEXT NOT NULL,
-            patient_id INTEGER,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (patient_id) REFERENCES patients (id)
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
 

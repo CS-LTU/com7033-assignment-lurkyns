@@ -18,21 +18,26 @@ def about():
 
 #SIGNUP page
 @app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         # Obtener los datos del formulario
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
         username = request.form['username']
         password = request.form['password']
 
         # Encriptar la contraseña
-        hashed_password = generate_password_hash(password, method='sha256')
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
         # Conectar a la base de datos y registrar al usuario
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
 
         try:
-            cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, hashed_password))
+            cursor.execute('INSERT INTO users (username, password, first_name, last_name, email) VALUES (?, ?, ?, ?, ?)',
+                           (username, hashed_password, first_name, last_name, email))
             conn.commit()
             return redirect('/signin')
         except sqlite3.IntegrityError:
@@ -84,7 +89,7 @@ def view_users():
         # Conectar a la base de datos y obtener los usuarios registrados
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
-        cursor.execute("SELECT username, created_at FROM users")
+        cursor.execute("SELECT * FROM users")
         users = cursor.fetchall()
         conn.close()
     except sqlite3.Error as e:
@@ -93,6 +98,23 @@ def view_users():
     
     # Renderizar la plantilla con los usuarios
     return render_template('view_users.html', users=users)
+
+
+#DELETED USERS
+@app.route('/delete_user/<int:user_id>')
+def delete_user(user_id):
+    try:
+        # Conectar a la base de datos y eliminar al usuario por ID
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+        conn.commit()
+        conn.close()
+        flash('User deleted successfully.')
+    except sqlite3.Error as e:
+        flash(f'An error occurred: {e}')
+
+    return redirect('/users')
 
 
 if __name__ == '__main__':
