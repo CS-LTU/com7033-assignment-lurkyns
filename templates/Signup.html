@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
-    <title>Sing up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Sign Up</title>
 </head>
 <body>
     <header>
-        <h1> SIGN UP </h1>
+        <h1>User Registration</h1>
     </header>
-    
-    <nav class="navbar"> 
-        <div class='nav-container'>
-            <ul>
-                <li><a href='/'>Home</a></li>
-                <li><a href='/about'>About</a></li>
-                <li><a href='/signup'>Sign up</a></li>
-                <li><a href='/signin'>sign in</a></li>
-            </ul>
-        </div>
-    
+
+    <div class="sign-up-form">
+        <form action="/signup" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+
+    <a href="/users">View Registered Users</a>
 </body>
 </html>

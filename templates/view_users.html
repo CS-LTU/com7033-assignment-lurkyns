@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Registered Users</title>
+</head>
+<body>
+    <header>
+        <h1>Registered Users</h1>
+    </header>
+
+    <div class="user-list">
+        <ul>
+            {% for user, created_at in users %}
+                <li>{{ user }} - Registered at: {{ created_at }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="/">Back to registration</a>
+</body>
+</html>

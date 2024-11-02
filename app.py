@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, session 
-
+import sqlite3
 
 app = Flask(__name__)
 app.secret_key = 'some_secret_key' 
@@ -74,6 +74,23 @@ def dashboard():
     else:
         return redirect('/signin')  # Redirect to sign in if not logged in
 
+
+# Ruta para ver los usuarios registrados
+@app.route('/users')
+def view_users():
+    try:
+        # Conectar a la base de datos y obtener los usuarios registrados
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT username, created_at FROM users")
+        users = cursor.fetchall()
+        conn.close()
+    except sqlite3.Error as e:
+        # Mostrar mensaje de error si hay un problema al conectarse a la base de datos
+        return f"An error occurred: {e}"
+    
+    # Renderizar la plantilla con los usuarios
+    return render_template('view_users.html', users=users)
 
 
 if __name__ == '__main__':
