@@ -18,7 +18,7 @@ def signup():
     return render_template('Signup.html')
 
 #SIGNIN page
-@app.route('/signin')
+@app.route('/signin', methods=['GET', 'POST'])
 def signin():
     return render_template('Singin.html')
 
