@@ -10,17 +10,16 @@
     <header>
         <h1>SIGN IN</h1>
     </header>
-    
-    <nav class="navbar"> 
-        <div class="nav-container">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/signup">Sign up</a></li>
-                <li><a href="/signin">Sign in</a></li>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
             </ul>
-        </div>
-    </nav>
+        {% endif %}
+    {% endwith %}
 
     <!-- Sign-in form -->
     <div class="sign-in-form">
@@ -36,3 +35,4 @@
     </div>
 </body>
 </html>
+
