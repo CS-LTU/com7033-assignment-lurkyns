@@ -23,11 +23,11 @@
             </tr>
             {% for user in users %}
             <tr>
-                <td>{{ user[0] }}</td>
-                <td>{{ user[1] }}</td>
-                <td>{{ user[2] }}</td>
-                <td>{{ user[3] }}</td>
-                <td>{{ user[5] }}</td>
+                <td>{{ user[0] }}</td> <!-- ID -->
+                <td>{{ user[1] }}</td> <!-- First Name -->
+                <td>{{ user[2] }}</td> <!-- Last Name -->
+                <td>{{ user[3] }}</td> <!-- Email -->
+                <td>{{ user[4] }}</td> <!-- Created At -->
                 <td><a href="/delete_user/{{ user[0] }}">Delete</a></td>
             </tr>
             {% endfor %}
@@ -37,3 +37,4 @@
     <a href="/signup">Register a new user</a>
 </body>
 </html>
+

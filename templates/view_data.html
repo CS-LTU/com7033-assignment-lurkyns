@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Uploaded Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Uploaded Data</h2>
+    <table>
+        <thead>
+            <tr>
+                <!-- Iwant the headers to match my CSV file's fields -->
+                <th>Field 1</th>
+                <th>Field 2</th>
+                <th>Field 3</th>
+                <th>Field 4</th>
+            
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item['field1'] }}</td>
+                <td>{{ item['field2'] }}</td>
+                <td>{{ item['field3'] }}</td>
+                <td>{{ item['field4'] }}</td>
+            
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
