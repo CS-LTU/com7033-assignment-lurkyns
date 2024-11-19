@@ -1,10 +1,162 @@
-.navbar { 
- background-color: palevioletred;
+/* General Page Styles */
+body {
+    font-family: 'Poppins', Arial, sans-serif; /* Clean, modern font */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8; /* Soft, calming background color */
+    color: #333; /* Dark grey for better readability */
 }
 
-
-h1{
-font-weight: bold;
-text-align: center;
+/* Navbar Styles */
+.navbar {
+    background-color: #6c63ff; /* Vibrant blue-purple gradient */
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
 }
 
+.navbar h1 {
+    font-size: 28px;
+    color: #ffffff; /* White text */
+    margin: 0;
+    letter-spacing: 1px; /* Slight spacing for elegance */
+    text-transform: uppercase;
+}
+
+.navbar-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: #ffffff; /* White text */
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 30px; /* Rounded buttons */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.navbar-links a:hover {
+    background-color: #857eff; /* Lighter gradient on hover */
+    transform: scale(1.1); /* Slight zoom effect */
+}
+
+/* About Section */
+.about-section {
+    padding: 50px 20px;
+    text-align: center;
+    background: linear-gradient(180deg, #ffffff, #f7f9fc);
+    box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.05); /* Subtle depth */
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 1000px;
+}
+
+.about-section h1 {
+    font-size: 32px;
+    color: #6c63ff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.about-section h1::after {
+    content: '';
+    width: 80px;
+    height: 3px;
+    background-color: #6c63ff;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Card shadow */
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: left;
+    line-height: 1.7;
+    font-size: 18px;
+    color: #444;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Hover lift effect */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+}
+
+.card p {
+    margin: 15px 0;
+    line-height: 1.8;
+}
+
+/* Footer */
+.footer {
+    background-color: #6c63ff;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+.footer a {
+    color: #ffffff;
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: #ffe6e6; /* Slight hover effect */
+}
+
+/* Buttons */
+button {
+    background-color: #6c63ff;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #857eff;
+    transform: scale(1.05); /* Subtle zoom effect */
+}
+
+/* Input Fields */
+input, select {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 16px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #6c63ff;
+    box-shadow: 0px 0px 5px rgba(108, 99, 255, 0.5); /* Glow effect */
+    outline: none;
+}

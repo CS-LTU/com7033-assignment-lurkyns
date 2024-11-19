@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Sign Up</title>
-    <style>
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-        }
-    </style>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <header>
         <h1>User Registration</h1>
+        <div class="back-home">
+            <a href="/" class="back-home-button">← Back to Home</a>
+        </div>
     </header>
     {% with messages = get_flashed_messages() %}
     {% if messages %}

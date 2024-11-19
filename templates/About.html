@@ -3,21 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
-    <title>About Page</title>
+    <title>About</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <header>
-        <h1> ABOUT </h1>
-    </header>
-    <nav class="navbar"> 
-        <div class='nav-container'>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>Stroke Predictor</h1>
+        <div class="navbar-links">
             <ul>
-                <li><a href='/'>Home</a></li>
-                <li><a href='/about'>About</a></li>
-                <li><a href='/signup'>Sign up</a></li>
-                <li><a href='/signin'>sign in</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/signup">Sign up</a></li>
+                <li><a href="/signin">Sign in</a></li>
+                <li><a href="/upload">Upload CSV</a></li>
+                <li><a href="/view">View Uploaded Data</a></li>
             </ul>
         </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <h1>About the App</h1>
+        <div class="card">
+            <p>
+                Welcome to the Stroke Predictor app! This application is designed to assist users in predicting the likelihood of strokes based on health-related data. 
+                It offers features like data uploads, secure patient management, and a user-friendly interface to make health monitoring easier and more accessible.
+            </p>
+            <p>
+                This project was developed by Osazeme Lurkyns Arthur, a student at Leeds Trinity University, as part of her coursework. If you have any questions or 
+                feedback, feel free to reach out via email at <a href="mailto:2123782@leedstrinity.ac.uk">2123782@leedstrinity.ac.uk</a>.
+            </p>
+            <p>
+                Student ID: 2123782
+            </p>
+        </div>
+    </section>
+    <div class="back-home">
+           <a href="/" class="back-home-button">← Back to Home</a>
+    </div>
 </body>
 </html>
