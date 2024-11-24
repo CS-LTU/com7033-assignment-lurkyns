@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
     <title>Dashboard</title>
     <link rel="stylesheet" href="static/style.css">
 </head>
@@ -28,6 +27,11 @@
     <div class="dashboard-content">
         <p>Welcome, {{ username }}! You have successfully signed in.</p>
         <p>Here you can access all the features of your account.</p>
+    </p>
+</div>
+</section>
+<div class="back-home">
+   <a href="/" class="back-home-button">← Back to Home</a>
     </div>
 </body>
 </html>
