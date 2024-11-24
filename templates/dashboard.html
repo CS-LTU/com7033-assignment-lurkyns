@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <header>
-        <h1>Welcome to Your Dashboard!</h1>
+        <h1>Welcome to Your Dashboard, {{ username }}!</h1>
     </header>
     
     <nav class="navbar">
@@ -23,16 +23,107 @@
         </div>
     </nav>
 
-    <!-- NEW: Personalized welcome message -->
-    <div class="dashboard-content">
-        <p>Welcome, {{ username }}! You have successfully signed in.</p>
-        <p>Here you can access all the features of your account.</p>
-    </p>
-</div>
-</section>
-<div class="back-home">
-   <a href="/" class="back-home-button">← Back to Home</a>
+    <div class="user-details-section">
+        <h2>Your Details</h2>
+        <ul>
+            <li>First Name: {{ user_details.first_name }}</li>
+            <li>Last Name: {{ user_details.last_name }}</li>
+            <li>Email: {{ user_details.email }}</li>
+            <li>Gender: {{ user_details.gender }}</li>
+            <li>Age: {{ user_details.age }}</li>
+            <li>Hypertension: {{ user_details.hypertension }}</li>
+            <li>Ever Married: {{ user_details.ever_married }}</li>
+            <li>Work Type: {{ user_details.work_type }}</li>
+            <li>Residence Type: {{ user_details.residence_type }}</li>
+            <li>Average Glucose Level: {{ user_details.avg_glucose_level }}</li>
+            <li>BMI: {{ user_details.bmi }}</li>
+            <li>Smoking Status: {{ user_details.smoking_status }}</li>
+            <li>Stroke History: {{ user_details.stroke }}</li>
+        </ul>
+    </div>    
+        <!-- Form to update user details -->
+        <h2>Update Your Details</h2>
+        <form action="/update_user" method="POST">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user_details[0] }}" required>
+            <br>
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user_details[1] }}" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user_details[2] }}" required>
+            <br>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="Male" {% if user_details[3] == "Male" %}selected{% endif %}>Male</option>
+                <option value="Female" {% if user_details[3] == "Female" %}selected{% endif %}>Female</option>
+                <option value="Other" {% if user_details[3] == "Other" %}selected{% endif %}>Other</option>
+            </select>
+            <br>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" value="{{ user_details[4] }}" required>
+            <br>
+            <label for="hypertension">Hypertension:</label>
+            <select id="hypertension" name="hypertension" required>
+                <option value="0" {% if user_details[5] == 0 %}selected{% endif %}>No</option>
+                <option value="1" {% if user_details[5] == 1 %}selected{% endif %}>Yes</option>
+            </select>
+            <br>
+            <label for="ever_married">Ever Married:</label>
+            <select id="ever_married" name="ever_married" required>
+                <option value="No" {% if user_details[6] == "No" %}selected{% endif %}>No</option>
+                <option value="Yes" {% if user_details[6] == "Yes" %}selected{% endif %}>Yes</option>
+            </select>
+            <br>
+            <label for="work_type">Work Type:</label>
+            <select id="work_type" name="work_type" required>
+                <option value="Children" {% if user_details[7] == "Children" %}selected{% endif %}>Children</option>
+                <option value="Govt_job" {% if user_details[7] == "Govt_job" %}selected{% endif %}>Government Job</option>
+                <option value="Never_worked" {% if user_details[7] == "Never_worked" %}selected{% endif %}>Never Worked</option>
+                <option value="Private" {% if user_details[7] == "Private" %}selected{% endif %}>Private</option>
+                <option value="Self_employed" {% if user_details[7] == "Self_employed" %}selected{% endif %}>Self-employed</option>
+            </select>
+            <br>
+            <label for="residence_type">Residence Type:</label>
+            <select id="residence_type" name="residence_type" required>
+                <option value="Rural" {% if user_details[8] == "Rural" %}selected{% endif %}>Rural</option>
+                <option value="Urban" {% if user_details[8] == "Urban" %}selected{% endif %}>Urban</option>
+            </select>
+            <br>
+            <label for="avg_glucose_level">Average Glucose Level:</label>
+            <input type="number" id="avg_glucose_level" name="avg_glucose_level" value="{{ user_details[9] }}" step="0.01" required>
+            <br>
+            <label for="bmi">BMI (Body Mass Index):</label>
+            <input type="number" id="bmi" name="bmi" value="{{ user_details[10] }}" step="0.1" required>
+            <br>
+            <label for="smoking_status">Smoking Status:</label>
+            <select id="smoking_status" name="smoking_status" required>
+                <option value="Formerly smoked" {% if user_details[11] == "Formerly smoked" %}selected{% endif %}>Formerly Smoked</option>
+                <option value="Never smoked" {% if user_details[11] == "Never smoked" %}selected{% endif %}>Never Smoked</option>
+                <option value="Smokes" {% if user_details[11] == "Smokes" %}selected{% endif %}>Smokes</option>
+                <option value="Unknown" {% if user_details[11] == "Unknown" %}selected{% endif %}>Unknown</option>
+            </select>
+            <br>
+            <label for="stroke">Stroke History:</label>
+            <select id="stroke" name="stroke" required>
+                <option value="0" {% if user_details[12] == 0 %}selected{% endif %}>No</option>
+                <option value="1" {% if user_details[12] == 1 %}selected{% endif %}>Yes</option>
+            </select>
+            <br>
+            <input type="submit" value="Update Details">
+        </form>
+
+        <!-- Delete Account Section -->
+        <form action="/delete_user" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+            <input type="submit" value="Delete Account" class="delete-button">
+        </form>
+    </div>
+
+    <div class="back-home">
+        <a href="/" class="back-home-button">← Back to Home</a>
     </div>
 </body>
 </html>
+
+
 

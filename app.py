@@ -6,6 +6,8 @@ import sqlite3
 import pymongo
 # Logging for tracking events and debugging
 import logging
+import re
+
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -25,22 +27,27 @@ except Exception as e:
 
 # SQLite connection setup
 def init_sqlite_db():
-    conn = sqlite3.connect('stroke_data.db')
+    conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS stroke_data (
+        CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            gender TEXT NOT NULL,
-            age REAL NOT NULL,
-            hypertension INTEGER NOT NULL,
-            heart_disease INTEGER NOT NULL,
+            first_name TEXT,
+            last_name TEXT,
+            email TEXT,
+            username TEXT UNIQUE,
+            password TEXT NOT NULL,
+            gender TEXT,
+            age INTEGER,
+            hypertension INTEGER,
             ever_married TEXT,
             work_type TEXT,
-            Residence_type TEXT,
+            residence_type TEXT,
             avg_glucose_level REAL,
             bmi REAL,
             smoking_status TEXT,
-            stroke INTEGER NOT NULL
+            stroke INTEGER,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
     conn.commit()
@@ -67,6 +74,16 @@ def signup():
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
+        gender = request.form['gender']
+        age = request.form['age']
+        hypertension = request.form['hypertension']
+        ever_married = request.form['ever_married']
+        work_type = request.form['work_type']
+        residence_type = request.form['residence_type']
+        avg_glucose_level = request.form['avg_glucose_level']
+        bmi = request.form['bmi']
+        smoking_status = request.form['smoking_status']
+        stroke = request.form['stroke']
 
         # Email validation
         if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
@@ -85,8 +102,10 @@ def signup():
         try:
             conn = sqlite3.connect('database.db')
             cursor = conn.cursor()
-            cursor.execute('INSERT INTO users (username, password, first_name, last_name, email) VALUES (?, ?, ?, ?, ?)',
-                           (username, hashed_password, first_name, last_name, email))
+            cursor.execute('''
+                INSERT INTO users (username, password, first_name, last_name, email, gender, age, hypertension, ever_married, work_type, residence_type, avg_glucose_level, bmi, smoking_status, stroke)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (username, hashed_password, first_name, last_name, email, gender, age, hypertension, ever_married, work_type, residence_type, avg_glucose_level, bmi, smoking_status, stroke))
             conn.commit()
             return redirect('/signin')
         except sqlite3.IntegrityError:
@@ -123,7 +142,46 @@ def signin():
 def dashboard():
     if 'username' in session:
         username = session['username']
-        return render_template('Dashboard.html', username=username)
+        
+        # Fetch user details from the database
+        try:
+            conn = sqlite3.connect('database.db')
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT first_name, last_name, email, gender, age, hypertension, ever_married, work_type, residence_type, avg_glucose_level, bmi, smoking_status, stroke 
+                FROM users WHERE username = ?
+            ''', (username,))
+            user_details = cursor.fetchone()
+            conn.close()
+            
+            # Ensure user_details were found
+            if user_details is None:
+                flash('User not found. Please sign in again.')
+                return redirect('/signin')
+            
+            # Create a dictionary for user details to pass to the template
+            user_details_dict = {
+                'first_name': user_details[0],
+                'last_name': user_details[1],
+                'email': user_details[2],
+                'gender': user_details[3],
+                'age': user_details[4],
+                'hypertension': 'Yes' if user_details[5] == 1 else 'No',
+                'ever_married': user_details[6],
+                'work_type': user_details[7],
+                'residence_type': user_details[8],
+                'avg_glucose_level': user_details[9],
+                'bmi': user_details[10],
+                'smoking_status': user_details[11],
+                'stroke': 'Yes' if user_details[12] == 1 else 'No'
+            }
+
+            # Pass user details to the template
+            return render_template('Dashboard.html', username=username, user_details=user_details_dict)
+
+        except sqlite3.Error as e:
+            flash(f'An error occurred while retrieving user details: {e}', 'danger')
+            return redirect('/signin')
     else:
         return redirect('/signin')
 
