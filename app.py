@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, flash, session
+#Werkzeug for hashing passwords to enhance security
 from werkzeug.security import generate_password_hash, check_password_hash
+# SQLite for handling relational database operations
 import sqlite3
 import pymongo
+# Pandas for data analysis and manipulation
 import pandas as pd
-import bcrypt
+# Logging for tracking events and debugging
 import logging
-import re
 
 # Initialize Flask app
 app = Flask(__name__)
